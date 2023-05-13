@@ -43,24 +43,24 @@ public class AddressPaymentDao extends HttpServlet {
 			throws ServletException, IOException {
 
 		String action = request.getParameter("action");
-		
+
 		HttpSession session = request.getSession();
-		
+
 		Address address = new Address();
 		Payment payment = new Payment();
-		
+
 		String url = "/index.jsp";
 
 		try {
 			if (action != null) {
 				con = DriverManagerConnectionPool.getConnection();
-				
-				if(action.equalsIgnoreCase("clearAddress")) {
+
+				if (action.equalsIgnoreCase("clearAddress")) {
 					session.removeAttribute("address");
 					url = "/address_payment.jsp";
 				}
-				
-				if(action.equalsIgnoreCase("clearPayment")) {
+
+				if (action.equalsIgnoreCase("clearPayment")) {
 					session.removeAttribute("payment");
 					url = "/address_payment.jsp";
 				}
@@ -82,16 +82,16 @@ public class AddressPaymentDao extends HttpServlet {
 						ResultSet rs = pst.executeQuery();
 
 						while (rs.next()) {
-							
+
 							address.setId(rs.getInt("ID"));
 							address.setStreet(rs.getString("STREET"));
 							address.setZip_code(rs.getString("ZIP_CODE"));
 							address.setCity(rs.getString("CITY"));
 							address.setProvince(rs.getString("PROVINCE"));
 							address.setCountry(rs.getString("COUNTRY"));
-							address.setInstructions(rs.getString("INSTRUCTIONS"));							
+							address.setInstructions(rs.getString("INSTRUCTIONS"));
 							session.setAttribute("address", address);
-							
+
 //							request.setAttribute("address_id", rs.getInt("ID"));
 //							request.setAttribute("street", rs.getString("STREET"));
 //							request.setAttribute("zip_code", rs.getString("ZIP_CODE"));
@@ -125,9 +125,9 @@ public class AddressPaymentDao extends HttpServlet {
 						pst.setInt(1, id);
 
 						ResultSet rs = pst.executeQuery();
-						
+
 						while (rs.next()) {
-							
+
 							payment.setId(rs.getInt("ID"));
 							payment.setFirst_name(rs.getString("FIRST_NAME"));
 							payment.setLast_name(rs.getString("LAST_NAME"));
@@ -136,7 +136,7 @@ public class AddressPaymentDao extends HttpServlet {
 							payment.setExpiryMonth(rs.getInt("EXPIRYMONTH"));
 							payment.setExpiryYear(rs.getInt("EXPIRYYEAR"));
 							session.setAttribute("payment", payment);
-							
+
 //							request.setAttribute("payment_id", rs.getInt("ID"));
 //							request.setAttribute("first_name", rs.getString("FIRST_NAME"));
 //							request.setAttribute("last_name", rs.getString("LAST_NAME"));
@@ -195,39 +195,39 @@ public class AddressPaymentDao extends HttpServlet {
 		boolean result = false;
 
 		try {
-			
-			if(choice == 1) {
-			query = "INSERT INTO " + AddressPaymentDao.TABLE_NAME1
-					+ "(STREET, ZIP_CODE, CITY, PROVINCE, COUNTRY, INSTRUCTIONS, USER_ID) values(?,?,?,?,?,?,?)";
-			pst = this.con.prepareStatement(query);
-			pst.setString(1, address.getStreet());
-			pst.setString(2, address.getZip_code());
-			pst.setString(3, address.getCity());
-			pst.setString(4, address.getProvince());
-			pst.setString(5, address.getCountry());
-			pst.setString(6, address.getInstructions());
-			pst.setInt(7, address.getUser_id());
 
-			pst.executeUpdate();
-			con.commit();
+			if (choice == 1) {
+				query = "INSERT INTO " + AddressPaymentDao.TABLE_NAME1
+						+ "(STREET, ZIP_CODE, CITY, PROVINCE, COUNTRY, INSTRUCTIONS, USER_ID) values(?,?,?,?,?,?,?)";
+				pst = this.con.prepareStatement(query);
+				pst.setString(1, address.getStreet());
+				pst.setString(2, address.getZip_code());
+				pst.setString(3, address.getCity());
+				pst.setString(4, address.getProvince());
+				pst.setString(5, address.getCountry());
+				pst.setString(6, address.getInstructions());
+				pst.setInt(7, address.getUser_id());
 
-			query = "INSERT INTO " + AddressPaymentDao.TABLE_NAME2
-					+ "(FIRST_NAME, LAST_NAME, CARDNUMBER, CVV, EXPIRYMONTH, EXPIRYYEAR, USER_ID) values(?,?,?,?,?,?,?)";
-			pst = this.con.prepareStatement(query);
-			pst.setString(1, payment.getFirst_name());
-			pst.setString(2, payment.getLast_name());
-			pst.setInt(3, payment.getCardNumber());
-			pst.setInt(4, payment.getCVV());
-			pst.setInt(5, payment.getExpiryMonth());
-			pst.setInt(6, payment.getExpiryYear());
-			pst.setInt(7, payment.getUser_id());
+				pst.executeUpdate();
+				con.commit();
 
-			pst.executeUpdate();
-			con.commit();
+				query = "INSERT INTO " + AddressPaymentDao.TABLE_NAME2
+						+ "(FIRST_NAME, LAST_NAME, CARDNUMBER, CVV, EXPIRYMONTH, EXPIRYYEAR, USER_ID) values(?,?,?,?,?,?,?)";
+				pst = this.con.prepareStatement(query);
+				pst.setString(1, payment.getFirst_name());
+				pst.setString(2, payment.getLast_name());
+				pst.setInt(3, payment.getCardNumber());
+				pst.setInt(4, payment.getCVV());
+				pst.setInt(5, payment.getExpiryMonth());
+				pst.setInt(6, payment.getExpiryYear());
+				pst.setInt(7, payment.getUser_id());
 
-			result = true;
+				pst.executeUpdate();
+				con.commit();
+
+				result = true;
 			}
-			if(choice == 2) {
+			if (choice == 2) {
 				query = "INSERT INTO " + AddressPaymentDao.TABLE_NAME1
 						+ "(STREET, ZIP_CODE, CITY, PROVINCE, COUNTRY, INSTRUCTIONS, USER_ID) values(?,?,?,?,?,?,?)";
 				pst = this.con.prepareStatement(query);
@@ -242,7 +242,7 @@ public class AddressPaymentDao extends HttpServlet {
 				pst.executeUpdate();
 				con.commit();
 			}
-			if(choice == 3) {
+			if (choice == 3) {
 				query = "INSERT INTO " + AddressPaymentDao.TABLE_NAME2
 						+ "(FIRST_NAME, LAST_NAME, CARDNUMBER, CVV, EXPIRYMONTH, EXPIRYYEAR, USER_ID) values(?,?,?,?,?,?,?)";
 				pst = this.con.prepareStatement(query);
@@ -257,8 +257,7 @@ public class AddressPaymentDao extends HttpServlet {
 				pst.executeUpdate();
 				con.commit();
 			}
-			
-			
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -416,7 +415,22 @@ public class AddressPaymentDao extends HttpServlet {
 			rs.next();
 			return (int) rs.getInt("ID");
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
+		} finally {
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					System.err.println(e.getMessage());
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					System.err.println(e.getMessage());
+				}
+			}
 		}
 		return -1;
 	}
@@ -445,8 +459,24 @@ public class AddressPaymentDao extends HttpServlet {
 			rs.next();
 			return (int) rs.getInt("ID");
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
+		} finally {
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					System.err.println(e.getMessage());
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					System.err.println(e.getMessage());
+				}
+			}
 		}
+
 		return -1;
 	}
 

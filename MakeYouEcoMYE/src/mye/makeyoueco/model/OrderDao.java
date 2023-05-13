@@ -70,7 +70,22 @@ public class OrderDao {
 			rs.next();
 			return (int) rs.getInt("ID");
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
+		} finally {
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					System.err.println(e.getMessage());
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					System.err.println(e.getMessage());
+				}
+			}
 		}
 		return -1;
 	}
