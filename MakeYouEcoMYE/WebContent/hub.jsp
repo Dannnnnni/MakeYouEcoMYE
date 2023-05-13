@@ -20,7 +20,7 @@
 	List<Product> products = pm.doRetrieveAll(null);
 %>
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
 <%@include file="/includes/head.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -30,11 +30,12 @@
 
 <body>
 	<%@include file="/includes/navbar.jsp"%>
-
+	<div align="center">
 	<a class="btn btn-dark" href="insert.jsp">Inserisci un nuovo
 		prodotto</a>
 
-	<a class="btn btn-dark" href="search_orders.jsp">Cerca un prodotto</a>
+	<a class="btn btn-dark" href="search_orders.jsp">Cerca un ordine</a>
+	</div>
 	<br>
 	<table class="table">
 		<thead class="thead-dark">

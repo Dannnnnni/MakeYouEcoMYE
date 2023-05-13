@@ -34,7 +34,7 @@
 	}
 %>
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
 <meta charset="UTF-8">
 <%@include file="/includes/head.jsp"%>

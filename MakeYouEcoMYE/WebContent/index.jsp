@@ -31,7 +31,7 @@
 	
 %>
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
 <%@include file="/includes/head.jsp"%>
 <title>Pagina Iniziale</title>
