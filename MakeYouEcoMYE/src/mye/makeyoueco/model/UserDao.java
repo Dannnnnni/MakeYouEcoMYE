@@ -103,4 +103,26 @@ public class UserDao {
 		}
 		return list;
 	}
+	
+	public User getUserById(int id) {
+		User user = new User();
+		try {
+			query = "SELECT * FROM " + UserDao.TABLE_NAME + " WHERE ID = ?";
+			pst = this.connection.prepareStatement(query);
+			pst.setInt(1, id);
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				user.setId(rs.getInt("id"));
+				user.setName(rs.getString("name"));
+				user.setSurname(rs.getString("surname"));
+				user.setEmail(rs.getString("email"));
+				user.setDate_registration(rs.getString("date_registration"));
+				user.setTelephone(rs.getString("telephone"));
+				user.setAdministrator(rs.getBoolean("administrator"));
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return user;
+	}
 }

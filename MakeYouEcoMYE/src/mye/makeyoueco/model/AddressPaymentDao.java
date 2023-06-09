@@ -23,7 +23,6 @@ public class AddressPaymentDao extends HttpServlet {
 
 	private String query;
 	private PreparedStatement pst;
-	private ResultSet rs;
 
 	public AddressPaymentDao() {
 		super();
@@ -46,6 +45,7 @@ public class AddressPaymentDao extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
+		User auth = (User) request.getSession().getAttribute("auth");
 		Address address = new Address();
 		Payment payment = new Payment();
 
@@ -54,6 +54,33 @@ public class AddressPaymentDao extends HttpServlet {
 		try {
 			if (action != null) {
 				con = DriverManagerConnectionPool.getConnection();
+				
+				if(action.equalsIgnoreCase("insertAddress")) {
+					AddressPaymentDao apDao = new AddressPaymentDao(DriverManagerConnectionPool.getConnection());
+					
+					address.setStreet((String) request.getParameter("address-street"));
+					address.setZip_code((String) request.getParameter("address-zipcode"));
+					address.setCity((String) request.getParameter("address-city"));
+					address.setProvince((String) request.getParameter("address-province"));
+					address.setCountry((String) request.getParameter("address-country"));
+					address.setInstructions((String) request.getParameter("address-instructions"));
+					address.setUser_id(auth.getId());
+
+					apDao.insertAddressPayment(address, payment, 2);
+				}
+				if(action.equalsIgnoreCase("insertPayment")) {
+					AddressPaymentDao apDao = new AddressPaymentDao(DriverManagerConnectionPool.getConnection());
+					
+					payment.setFirst_name((String) request.getParameter("payment-name"));
+					payment.setLast_name((String) request.getParameter("payment-surname"));
+					payment.setCardNumber(Integer.parseInt(request.getParameter("payment-number")));
+					payment.setCVV(Integer.parseInt(request.getParameter("payment-cvv")));
+					payment.setExpiryMonth(Integer.parseInt(request.getParameter("payment-month")));
+					payment.setExpiryYear(Integer.parseInt(request.getParameter("payment-year")));
+					payment.setUser_id(auth.getId());
+					
+					apDao.insertAddressPayment(address, payment, 3);
+				}
 
 				if (action.equalsIgnoreCase("clearAddress")) {
 					session.removeAttribute("address");

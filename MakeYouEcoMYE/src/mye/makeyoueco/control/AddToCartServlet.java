@@ -24,8 +24,6 @@ public class AddToCartServlet extends HttpServlet {
 
 		try (PrintWriter out = response.getWriter()) {
 
-//        	out.print("add to cart servlet");
-
 			ArrayList<Cart> cartList = new ArrayList<>();
 			int id = Integer.parseInt(request.getParameter("id"));
 			Cart cm = new Cart();
@@ -60,7 +58,7 @@ public class AddToCartServlet extends HttpServlet {
 				if (!exist) {
 					cartList.add(cm);
 
-					System.out.println(request.getParameter("order-now"));
+					System.err.println(request.getParameter("order-now"));
 					if (order_now!=null && order_now.equals("yes")) {
 						response.sendRedirect("address_payment.jsp");
 					} else {

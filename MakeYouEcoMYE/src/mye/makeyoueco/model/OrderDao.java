@@ -122,15 +122,12 @@ public class OrderDao {
 			pst = this.con.prepareStatement(query);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-
 				Order order = new Order();
-
 				order.setId(rs.getInt("ID"));
 				order.setQuantity(rs.getInt("QUANTITY"));
 				order.setDate(rs.getString("DATA"));
 				order.setTotalCost(rs.getDouble("TOTALCOST"));
 				order.setStatus(rs.getString("STATUS"));
-
 				list.add(order);
 			}
 		} catch (Exception e) {

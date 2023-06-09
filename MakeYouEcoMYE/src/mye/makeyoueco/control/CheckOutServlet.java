@@ -31,8 +31,6 @@ public class CheckOutServlet extends HttpServlet {
 			Date date = new Date();
 			ArrayList<Cart> cart_list = (ArrayList<Cart>) request.getSession().getAttribute("cart-list");
 
-//			double total = (double) request.getSession().getAttribute("total");
-
 			ProductDao pDao = new ProductDao(DriverManagerConnectionPool.getConnection());
 			ArrayList<Cart> cartProduct = pDao.getCartProducts(cart_list);
 			double total = pDao.getTotalCartPrice(cart_list);
@@ -64,21 +62,21 @@ public class CheckOutServlet extends HttpServlet {
 				if (request.getParameter("existingAddress") == null
 						&& request.getParameter("existingPayment") == null) {
 
-					boolean saveAddressPayment = apDao.insertAddressPayment(address, payment, 1);
+					apDao.insertAddressPayment(address, payment, 1);
 
 				} else if (request.getParameter("existingAddress") == null
 						&& request.getParameter("existingPayment") != null) {
 
-					boolean saveAddressPayment = apDao.insertAddressPayment(address, payment, 2);
+					apDao.insertAddressPayment(address, payment, 2);
 
 				} else if (request.getParameter("existingAddress") != null
 						&& request.getParameter("existingPayment") == null) {
 
-					boolean saveAddressPayment = apDao.insertAddressPayment(address, payment, 3);
+					apDao.insertAddressPayment(address, payment, 3);
 				} else if (request.getParameter("existingAddress") != null
 						&& request.getParameter("existingPayment") != null) {
 
-					boolean saveAddressPayment = apDao.insertAddressPayment(address, payment, 4);
+					apDao.insertAddressPayment(address, payment, 4);
 				}
 
 				int address_id = apDao.getAddress_id(address);
@@ -124,7 +122,7 @@ public class CheckOutServlet extends HttpServlet {
 				response.sendRedirect("cart.jsp");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 	}
 
