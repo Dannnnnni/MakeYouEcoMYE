@@ -113,3 +113,12 @@
     text-align: left;
   }
 }
+
+
+.immagine-ingrandibile {
+  transition: all 0.3s ease;
+}
+
+.immagine-ingrandibile:hover {
+  transform: scale(1.2);
+}

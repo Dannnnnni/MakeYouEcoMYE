@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="java.util.*"%>
-<%@ page import="java.io.*"%>
 <%@ page import="mye.makeyoueco.model.*"%>
+<%@ page import="java.io.*"%>
+<%@ page import="java.util.*"%>
 <%
 	User auth = (User) request.getSession().getAttribute("auth");
-	if (auth == null) {
+	if (auth == null || !auth.isAdministrator()) {
 		response.sendRedirect("login.jsp");
 	}
 
@@ -13,30 +13,98 @@
 	if (cart_list != null) {
 		request.setAttribute("cart_list", cart_list);
 	}
-	
+
+	String email = request.getParameter("email");
+	int id = Integer.parseInt(request.getParameter("id"));
+
+	OrderDao od = new OrderDao(DriverManagerConnectionPool.getConnection());
+	List<Order> orders = od.getOrderById(email);
+
+	UserDao ud = new UserDao(DriverManagerConnectionPool.getConnection());
+	User user = ud.getUserById(id);
+
 	ArrayList<Address> addresses = new ArrayList<Address>();
 	ArrayList<Payment> payments = new ArrayList<Payment>();
-	
-	if (auth != null) {
-		AddressPaymentDao ap = new AddressPaymentDao(DriverManagerConnectionPool.getConnection());
-		addresses = ap.getAllAddress(auth.getId());
-		payments = ap.getAllPayment(auth.getId());
-	}
+
+	AddressPaymentDao ap = new AddressPaymentDao(DriverManagerConnectionPool.getConnection());
+	addresses = ap.getAllAddress(id);
+	payments = ap.getAllPayment(id);
 %>
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
+
 <%@include file="/includes/head.jsp"%>
-<title>Informazioni personali</title>
-<!-- <link href="style-footer.css" rel="stylesheet" type="text/css"> -->
+<meta charset="UTF-8">
+<title>Dettagli dell'utente</title>
+<link href="style-footer.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<%@include file="/includes/navbar.jsp"%>
+	<a class="btn btn-primary" href="hub.jsp">&larr;</a>
 
-	<div align="center">
-		<a class="btn btn-dark" href="insert_address_payment.jsp">Inserisci informazioni di pagamento o indirizzo</a>
-	</div>
+
+
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th>Codice Utente</th>
+				<th>Email</th>
+				<th>Nome</th>
+				<th>Cognome</th>
+				<th>Data di registrazione</th>
+				<th>Telefono</th>
+				<th>Dettagli</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><%=user.getId()%></td>
+				<td><%=user.getEmail()%></td>
+				<td><%=user.getName()%></td>
+				<td><%=user.getSurname()%></td>
+				<td><%=user.getDate_registration()%></td>
+				<td><%=user.getTelephone()%></td>
+				<td><a
+					href="user_detail.jsp?id=<%=user.getId()%>&email=<%=user.getEmail()%>">Dettagli</a></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th>Codice Ordine</th>
+				<th>Quantità Articoli</th>
+				<th>Data Ordine</th>
+				<th>Costo Totale</th>
+				<th>Stato</th>
+				<th>Dettagli</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<%
+				if (!orders.isEmpty()) {
+					for (Order o : orders) {
+			%>
+			<tr>
+				<td><%=o.getId()%></td>
+				<td><%=o.getQuantity()%></td>
+				<td><%=o.getDate()%></td>
+				<td><%=o.getTotalCost()%> &euro;</td>
+				<td><%=o.getStatus()%></td>
+				<td><a href="order_detail.jsp?id=<%=o.getId()%>">Dettagli</a></td>
+			</tr>
+			<%
+				}
+				} else {
+					out.println("Nessun ordine");
+				}
+			%>
+		</tbody>
+	</table>
+
 
 	<table class="table">
 		<thead class="thead-dark">
@@ -109,6 +177,6 @@
 		</tbody>
 	</table>
 
-<%-- 	<%@include file="/includes/footer.jsp"%> --%>
+	<%@include file="/includes/footer.jsp"%>
 </body>
 </html>

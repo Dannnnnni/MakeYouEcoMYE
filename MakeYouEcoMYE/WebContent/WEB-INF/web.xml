@@ -40,6 +40,15 @@
 		<servlet-name>SearchOrder</servlet-name>
 		<url-pattern>/search_orders</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SearchUser</servlet-name>
+		<servlet-class>mye.makeyoueco.model.SearchUser</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchUser</servlet-name>
+		<url-pattern>/search_users</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>AddressPaymentDao</servlet-name>

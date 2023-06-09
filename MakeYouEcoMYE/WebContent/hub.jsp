@@ -31,10 +31,12 @@
 <body>
 	<%@include file="/includes/navbar.jsp"%>
 	<div align="center">
-	<a class="btn btn-dark" href="insert.jsp">Inserisci un nuovo
+	<a class="btn btn-dark" href="insert_product.jsp">Inserisci un nuovo
 		prodotto</a>
 
 	<a class="btn btn-dark" href="search_orders.jsp">Cerca un ordine</a>
+	
+	<a class="btn btn-dark" href="search_user.jsp">Cerca un utente</a>
 	</div>
 	<br>
 	<table class="table">

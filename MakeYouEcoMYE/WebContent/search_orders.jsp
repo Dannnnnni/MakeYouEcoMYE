@@ -21,9 +21,8 @@
 	List<User> users = null;
 
 	orders = (ArrayList<Order>) request.getSession().getAttribute("search_order");
-	System.out.println(orders);
 
-	if (orders == null) {
+	if (orders == null || orders.isEmpty()) {
 		OrderDao orderDao = new OrderDao(DriverManagerConnectionPool.getConnection());
 		orders = orderDao.getAllOrders();
 	}
@@ -39,7 +38,7 @@
 <meta charset="UTF-8">
 <%@include file="/includes/head.jsp"%>
 <link href="style-footer.css" rel="stylesheet" type="text/css">
-<title>Pagina di Login</title>
+<title>Ricerca di un ordine</title>
 </head>
 <body>
 	<%@include file="/includes/navbar.jsp"%>

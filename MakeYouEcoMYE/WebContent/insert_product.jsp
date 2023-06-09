@@ -20,7 +20,7 @@
 	List<Product> products = pm.doRetrieveAll(null);
 %>
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
 <meta charset="UTF-8">
 <%@include file="/includes/head.jsp"%>
@@ -29,7 +29,7 @@
 </head>
 <body>
 	<%@include file="/includes/navbar.jsp"%>
-	<a class="btn btn-primary" href="hub.jsp">&larr;</a>
+
 	<div class="container">
 		<div class="card w-50 mx-auto my-5">
 			<div class="card-header text-center">Inserimento di un prodotto</div>
